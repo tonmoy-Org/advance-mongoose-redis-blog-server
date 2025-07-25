@@ -1,19 +1,25 @@
 import cors from 'cors';
+import morgan from 'morgan';
+import helmet from 'helmet';
 import express, { Application, Request, Response } from 'express';
-import { StudentRoutes } from './app/modules/student/student.route';
+import { BlogRoutes } from './app/modules/blog/blog.route';
 
 const app: Application = express();
 
-//parsers
+// Middleware
+app.use(helmet());
+app.use(morgan('dev'));
+
+// Parsers
 app.use(express.json());
 app.use(cors());
 
-// application routes
-app.use('/api/v1/students', StudentRoutes);
+// Application routes
+app.use('/api/v1/blogs', BlogRoutes);
 
+// Root route
 const getAController = (req: Request, res: Response) => {
-  const a = 10;
-  res.send(a);
+  res.status(200).send('🚀 Welcome to the Advanced Mongoose + Redis Blog API');
 };
 
 app.get('/', getAController);
